@@ -9,7 +9,9 @@
 
 
 ## [PROBLEM 1] - 150 points
-## Below is code for one of the simplest possible Flask applications. Edit the code so that once you run this application locally and go to the URL 'http://localhost:5000/class', you see a page that says "Welcome to SI 364!"
+## Below is code for one of the simplest possible Flask applications.
+## Edit the code so that once you run this application locally and go
+## to the URL 'http://localhost:5000/class', you see a page that says "Welcome to SI 364!"
 
 from flask import Flask
 app = Flask(__name__)
@@ -18,6 +20,11 @@ app.debug = True
 @app.route('/')
 def hello_to_you():
     return 'Hello!'
+
+# new route: /class
+@app.route('/class')
+def welcometo():
+    return 'Welcome to SI 364!'
 
 
 if __name__ == '__main__':

@@ -14,6 +14,9 @@
 ## to the URL 'http://localhost:5000/class', you see a page that says "Welcome to SI 364!"
 
 from flask import Flask
+import requests
+import json
+
 app = Flask(__name__)
 app.debug = True
 
@@ -27,10 +30,10 @@ def welcometo():
     return 'Welcome to SI 364!'
 
 @app.route('/movie/<movname>')
-def movname():
+def movnamefunc(movname):
     baseurl = "https://itunes.apple.com/search"
     params_diction = {}
-    params_diction["term"] = artist
+    params_diction["term"] = movname
     resp = requests.get(baseurl, params=params_diction)
     text = resp.text
     python_obj = json.loads(text)
@@ -42,7 +45,12 @@ if __name__ == '__main__':
 
 
 ## [PROBLEM 2] - 250 points
-## Edit the code chunk above again so that if you go to the URL 'http://localhost:5000/movie/<name-of-movie-here-one-word>' you see a big dictionary of data on the page. For example, if you go to the URL 'http://localhost:5000/movie/ratatouille', you should see something like the data shown in the included file sample_ratatouille_data.txt, which contains data about the animated movie Ratatouille. However, if you go to the url http://localhost:5000/movie/titanic, you should get different data, and if you go to the url 'http://localhost:5000/movie/dsagdsgskfsl' for example, you should see data on the page that looks like this:
+## Edit the code chunk above again so that if you go to the URL 'http://localhost:5000/movie/<name-of-movie-here-one-word>'
+# you see a big dictionary of data on the page. For example, if you go to the URL 'http://localhost:5000/movie/ratatouille',
+# you should see something like the data shown in the included file sample_ratatouille_data.txt,
+# which contains data about the animated movie Ratatouille. However, if you go to the url
+# http://localhost:5000/movie/titanic, you should get different data, and if you go to the url
+# 'http://localhost:5000/movie/dsagdsgskfsl' for example, you should see data on the page that looks like this:
 
 # {
 #  "resultCount":0,

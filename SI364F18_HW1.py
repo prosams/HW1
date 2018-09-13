@@ -29,37 +29,45 @@ app.debug = True
 
 @app.route('/')
 def hello_to_you():
-    return 'Hello!'
+		return 'Hello!'
 
 # new route: /class
 @app.route('/class')
 def welcometo():
-    return 'Welcome to SI 364!'
+		return 'Welcome to SI 364!'
 
 @app.route('/movie/<movname>')
 def movnamefunc(movname):
-    baseurl = "https://itunes.apple.com/search"
-    params_diction = {}
-    params_diction["term"] = movname
-    resp = requests.get(baseurl, params=params_diction)
-    text = resp.text
-    python_obj = json.loads(text)
-    return str(python_obj)
+		baseurl = "https://itunes.apple.com/search"
+		params_diction = {}
+		params_diction["term"] = movname
+		resp = requests.get(baseurl, params=params_diction)
+		text = resp.text
+		python_obj = json.loads(text)
+		return str(python_obj)
 
 @app.route('/question')
 def questfunc():
-    <form action="/action_page.php">
-  First name:<br>
-  <input type="text" name="firstname" value="Mickey"><br>
-  Last name:<br>
-  <input type="text" name="lastname" value="Mouse"><br><br>
-  <input type="submit" value="Submit">
-</form>
+	htmlstring = '''
+		<html>
+		<body>
+		<div>
+		<form method = "GET" action = "http://localhost:5000/result">
+			Please enter your favorite number:
+			<input type= "text" name = "number" value = "0">
+			<br> <br>
+			<input type = "submit" value = "Submit"
+		<div>
+		</form>
+		</htm>'''
+	return htmlstring
+
+
 
 
 
 if __name__ == '__main__':
-    app.run()
+		app.run()
 
 
 ## [PROBLEM 2] - 250 points

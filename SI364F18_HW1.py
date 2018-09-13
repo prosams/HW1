@@ -4,7 +4,14 @@
 
 #################################
 
-## List below here, in a comment/comments, the people you worked with on this assignment AND any resources you used to find code (50 point deduction for not doing so). If none, write "None".
+## List below here, in a comment/comments, the people you worked with on this assignment
+# AND any resources you used to find code (50 point deduction for not doing so). If none, write "None".
+
+# I worked with Nicole Greenburg
+
+ # - I used the first_flask_app.py from lecture
+ # https://www.w3schools.com/html/html_forms.asp
+ # http://flask.pocoo.org/docs/1.0/tutorial/templates/
 
 
 
@@ -39,6 +46,17 @@ def movnamefunc(movname):
     python_obj = json.loads(text)
     return str(python_obj)
 
+@app.route('/question')
+def questfunc():
+    <form action="/action_page.php">
+  First name:<br>
+  <input type="text" name="firstname" value="Mickey"><br>
+  Last name:<br>
+  <input type="text" name="lastname" value="Mouse"><br><br>
+  <input type="submit" value="Submit">
+</form>
+
+
 
 if __name__ == '__main__':
     app.run()
@@ -66,14 +84,18 @@ if __name__ == '__main__':
 
 ## [PROBLEM 3] - 250 points
 
-## Edit the above Flask application code so that if you run the application locally and got to the URL http://localhost:5000/question, you see a form that asks you to enter your favorite number.
-## Once you enter a number and submit it to the form, you should then see a web page that says "Double your favorite number is <number>". For example, if you enter 2 into the form, you should then see a page that says "Double your favorite number is 4". Careful about types in your Python code!
+## Edit the above Flask application code so that if you run the application locally and got to the URL http://localhost:5000/question,
+# you see a form that asks you to enter your favorite number.
+## Once you enter a number and submit it to the form, you should then see a web page that
+# says "Double your favorite number is <number>". For example, if you enter 2 into the form, you
+# should then see a page that says "Double your favorite number is 4". Careful about types in your Python code!
 ## You can assume a user will always enter a number only.
 
 
 ## [PROBLEM 4] - 350 points
 
-## Come up with your own interactive data exchange that you want to see happen dynamically in the Flask application, and build it into the above code for a Flask application, following a few requirements.
+## Come up with your own interactive data exchange that you want to see happen dynamically in
+# the Flask application, and build it into the above code for a Flask application, following a few requirements.
 
 ## You should create a form that appears at the route: http://localhost:5000/problem4form
 

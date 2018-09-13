@@ -26,6 +26,16 @@ def hello_to_you():
 def welcometo():
     return 'Welcome to SI 364!'
 
+@app.route('/movie/<movname>')
+def movname():
+    baseurl = "https://itunes.apple.com/search"
+    params_diction = {}
+    params_diction["term"] = artist
+    resp = requests.get(baseurl, params=params_diction)
+    text = resp.text
+    python_obj = json.loads(text)
+    return str(python_obj)
+
 
 if __name__ == '__main__':
     app.run()

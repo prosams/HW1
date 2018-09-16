@@ -50,24 +50,26 @@ def movnamefunc(movname):
 def questfunc():
 	htmlstring = '''
 		<html>
-		<body>
-		<div>
-		<form method = "GET" action = "http://localhost:5000/result">
-			Please enter your favorite number:
-			<input type= "text" name = "number" value = "0">
-			<br> <br>
-			<input type = "submit" value = "Submit"
-		<div>
-		</form>
+			<body>
+				<div>
+					<form action = "http://localhost:5000/result" method = "GET">
+						Please enter your favorite number: <br> <br>
+							<input type= "text" name = "number" value="666">
+							 <input type = "submit" value = "Submit">
+				<div>
+			</form>
 		</htm>'''
 	return htmlstring
 
+@app.route('/result')
+def resultfunc:
+	
 
 
 
 
 if __name__ == '__main__':
-		app.run()
+		app.run(debug=True)
 
 
 ## [PROBLEM 2] - 250 points

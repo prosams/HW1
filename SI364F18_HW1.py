@@ -20,9 +20,10 @@
 ## Edit the code so that once you run this application locally and go
 ## to the URL 'http://localhost:5000/class', you see a page that says "Welcome to SI 364!"
 
-from flask import Flask
+from flask import Flask, request
 import requests
 import json
+import html
 
 app = Flask(__name__)
 app.debug = True
@@ -54,7 +55,7 @@ def questfunc():
 				<div>
 					<form action = "http://localhost:5000/result" method = "GET">
 						Please enter your favorite number: <br> <br>
-							<input type= "text" name = "number" value="666">
+							<input type= "text" name = "number" value="0">
 							 <input type = "submit" value = "Submit">
 				<div>
 			</form>
@@ -64,13 +65,14 @@ def questfunc():
 @app.route('/result', methods=["GET","POST"])
 def resultfunc():
 	if request.method == "GET":
-		n = request.args.get('number', 'not found') # FROM views_app.py
-		convertedn = int(n)
-		response = "Double your favorite number is "
-		final = response + str(2*convertedn)
-		return final
-	return "Nothing was selected this time!"
-
+		try:
+			n = request.args.get('number', 'not found') # FROM views_app.py
+			convertedn = int(n)
+			response = "Double your favorite number is "
+			final = response + str(2*convertedn)
+			return final
+		except:
+			return "Something appears to be going wrong. Check that you are only entering numbers and try again."
 
 if __name__ == '__main__':
 		app.run(debug=True)

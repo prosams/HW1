@@ -61,11 +61,15 @@ def questfunc():
 		</htm>'''
 	return htmlstring
 
-@app.route('/result')
-def resultfunc:
-	
-
-
+@app.route('/result', methods=["GET","POST"])
+def resultfunc():
+	if request.method == "GET":
+		n = request.args.get('number', 'not found') # FROM views_app.py
+		convertedn = int(n)
+		response = "Double your favorite number is "
+		final = response + str(2*convertedn)
+		return final
+	return "Nothing was selected this time!"
 
 
 if __name__ == '__main__':

@@ -136,35 +136,37 @@ def qFour():
 	baseurl = "https://swapi.co/api/people/?"
 
 	if request.method == "GET":
+		try:
+			searchterm = request.args.get('phrase')
+			params_diction = {}
+			params_diction["search"] = searchterm
+			makereq = requests.get(baseurl, params = params_diction)
+			txt = makereq.text
+			python_obj = json.loads(txt)
 
-		searchterm = request.args.get('phrase')
-		params_diction = {}
-		params_diction["search"] = searchterm
-		makereq = requests.get(baseurl, params = params_diction)
-		txt = makereq.text
-		python_obj = json.loads(txt)
+			if searchterm == '':
+				return(formstring + '<br> Are you sure you entered something? <br>')
 
-		if searchterm == '':
-			return(formstring + '<br> Are you sure you entered something? <br>')
+			pname = python_obj['results'][0]["name"]
+			phair = python_obj['results'][0]["hair_color"]
+			pgender = python_obj['results'][0]["gender"]
+			pworld = python_obj['results'][0]["homeworld"]
 
-		pname = python_obj['results'][0]["name"]
-		phair = python_obj['results'][0]["hair_color"]
-		pgender = python_obj['results'][0]["gender"]
-		pworld = python_obj['results'][0]["homeworld"]
+			personstring = '<br>-- TOP PERSON RESULT --<br>Name: {}<br>Hair Color: {}<br>Gender: {}<br>Homeworld (link!): {}'.format(pname, phair, pgender, pworld)
 
-		personstring = '<br>-- TOP PERSON RESULT --<br>Name: {}<br>Hair Color: {}<br>Gender: {}<br>Homeworld (link!): {}'.format(pname, phair, pgender, pworld)
+			if request.args.get('dislike'):
+				return(formstring + '<br>If you do not like Star Wars, I guess you have no use for this app then! Find another one or pick a better answer.<br>')
+			if request.args.get('meh'):
+				return(formstring + '<br>You selected "meh". Show a bit more enthusiasm, please, and pick a better answer! <br>')
+			if request.args.get('kinda'):
+				return(formstring + '<br> Okay, so you kindaaaaaaa like star wars. Fine. <br>' + personstring)
+			if request.args.get('love'):
+				return(formstring + '<br> WHOOO! A STAR WARS FAN!! <br>' + personstring)
+			else:
+				return(formstring + '<br> Select an answer/input a name and make sure everything is spelled right. <br>')
 
-		if request.args.get('dislike'):
-			return(formstring + '<br> If you do not like Star Wars, I guess you have no use for this app then! Find another one! <br>')
-		if request.args.get('meh'):
-			return(formstring + '<br> Show a bit more enthusiasm, please! <br>')
-		if request.args.get('kinda'):
-			return(formstring + personstring)
-		if request.args.get('love'):
-			return(formstring + '<br> WHOOO! A STAR WARS FAN!! <br>' + personstring)
-		else:
-			return(formstring + '<br> you need to select an answer and make sure everything is spelled right. <br>')
-
+		except:
+			return(formstring + '<br> you need to make sure spelling is correct!')
 	else:
 		return formstring
 

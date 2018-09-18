@@ -126,10 +126,10 @@ def qFour():
 	<form action="http://localhost:5000/problem4form" method='GET'>
 	<input type="text" name="phrase"> <br>
 	How much do you like Star Wars?<br>
-	<input type="radio" name="dislike"> I don't like Star Wars at all<br>
-	<input type="radio" name="meh"> I feel eh about Star Wars<br>
-	<input type="radio" name="kinda"> I kinda like Star Wars<br>
-	<input type="radio" name="love"> I love Star Wars<br>
+	<input type="checkbox" name="dislike">dislike<br>
+	<input type="checkbox" name="meh">meh<br>
+	<input type="checkbox" name="kinda">kinda<br>
+	<input type="checkbox" name="love">love<br>
 	<br>
 	<input type="submit" value="Submit"></form><br>
 	"""
@@ -146,8 +146,6 @@ def qFour():
 
 		if searchterm == '':
 			return(formstring + '<br> Are you sure you entered something? <br>')
-		if 'error' in searchterm:
-			return(formstring + '<br> There is an error happening. Try again. <br>')
 
 		pname = python_obj['results'][0]["name"]
 		phair = python_obj['results'][0]["hair_color"]

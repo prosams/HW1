@@ -22,12 +22,13 @@ baseurl = "https://swapi.co/api/people/?"
 params_diction = {}
 params_diction["search"] = searchterm
 makereq = requests.get(baseurl, params = params_diction)
-
+print (makereq)
 txt = makereq.text
 python_obj = json.loads(txt)
 print(python_obj)
 
 pname = python_obj['results'][0]["name"]
+
 phair = python_obj['results'][0]["hair_color"]
 pgender = python_obj['results'][0]["gender"]
 pworld = python_obj['results'][0]["homeworld"]

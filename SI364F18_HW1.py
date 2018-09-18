@@ -116,7 +116,7 @@ def resultfunc():
 
 ## Submitting the form should result in your seeing the results of the form on the same page.
 
-@app.route('/problem4form')
+@app.route('/problem4form', methods = ['POST', 'GET'])
 def qFour():
 	formstring = """+++++++++++++++++++++++++++++++++++++++++<br>
 	<h1>Star Wars People Search</h1>
@@ -124,9 +124,7 @@ def qFour():
 	<br> <br>
 	Enter a name to look up: <br>
 	<form action="http://localhost:5000/problem4form" method='GET'>
-	<input type="text" name="phrase">
-	<input type="submit" value="Submit">
-	</form> <br>
+	<input type="text" name="phrase"> <br>
 	How much do you like Star Wars?<br>
 	<input type="radio" name="dislike"> I don't like Star Wars at all<br>
 	<input type="radio" name="meh"> I feel eh about Star Wars<br>
@@ -136,37 +134,42 @@ def qFour():
 	<input type="submit" value="Submit"></form><br>
 	"""
 	baseurl = "https://swapi.co/api/people/?"
-	searchterm = str(request.args.get('phrase'))
-
-	params_diction = {}
-	params_diction["search"] = searchterm
-	makereq = requests.get(baseurl, params = params_diction)
-
-	txt = makereq.text
-	python_obj = json.loads(txt)
-	pname = python_obj['results'][0]["name"]
-	phair = python_obj['results'][0]["hair_color"]
-	pgender = python_obj['results'][0]["gender"]
-	pworld = python_obj['results'][0]["homeworld"]
-
-	personstring = '<br>-- TOP PERSON RESULT --<br>Name: {}<br>Hair Color: {}<br>Gender: {}<br>Homeworld (link!): {}'.format(pname, phair, pgender, pworld)
 
 	if request.method == "GET":
-		try:
-			if request.args.get('dislike'):
-				return(formstring + '<br> If you do not like Star Wars, I guess you have no use for this app then! Find another one! <br>')
-			if request.args.get('meh'):
-				return(formstring + '<br> Show a bit more enthusiasm, please! <br>')
-			if request.args.get('kinda'):
-				return(formstring + personstring)
-			if request.args.get('love'):
-				return(formstring + '<br> WHOOO! A STAR WARS FAN!! <br>' + personstring)
-			else:
-				return(formstring + '<br> you need to select an answer! <br>')
-		except:
-			return(formstring + '<br> SOMETHING IS GOING WRONG. Make sure you spelled everything correctly.')
 
-	return formstring
+		searchterm = request.args.get('phrase')
+		params_diction = {}
+		params_diction["search"] = searchterm
+		makereq = requests.get(baseurl, params = params_diction)
+		txt = makereq.text
+		python_obj = json.loads(txt)
+
+		if searchterm == '':
+			return(formstring + '<br> Are you sure you entered something? <br>')
+		if 'error' in searchterm:
+			return(formstring + '<br> There is an error happening. Try again. <br>')
+
+		pname = python_obj['results'][0]["name"]
+		phair = python_obj['results'][0]["hair_color"]
+		pgender = python_obj['results'][0]["gender"]
+		pworld = python_obj['results'][0]["homeworld"]
+
+		personstring = '<br>-- TOP PERSON RESULT --<br>Name: {}<br>Hair Color: {}<br>Gender: {}<br>Homeworld (link!): {}'.format(pname, phair, pgender, pworld)
+
+		if request.args.get('dislike'):
+			return(formstring + '<br> If you do not like Star Wars, I guess you have no use for this app then! Find another one! <br>')
+		if request.args.get('meh'):
+			return(formstring + '<br> Show a bit more enthusiasm, please! <br>')
+		if request.args.get('kinda'):
+			return(formstring + personstring)
+		if request.args.get('love'):
+			return(formstring + '<br> WHOOO! A STAR WARS FAN!! <br>' + personstring)
+		else:
+			return(formstring + '<br> you need to select an answer and make sure everything is spelled right. <br>')
+
+	else:
+		return formstring
+
 
 	# params_diction = {}
 	# params_diction["Accept"] = "application/json"
@@ -180,7 +183,6 @@ def qFour():
 	# text = makereq.text
 	# python_obj = json.loads(text)
 	# return formstring + str(python_obj)
-
 
 if __name__ == '__main__':
 		app.run(debug=True)

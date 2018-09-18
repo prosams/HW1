@@ -74,8 +74,7 @@ def resultfunc():
 		except:
 			return "Something appears to be going wrong. Check that you are only entering numbers and try again."
 
-if __name__ == '__main__':
-		app.run(debug=True)
+
 
 
 ## [PROBLEM 2] - 250 points
@@ -117,14 +116,92 @@ if __name__ == '__main__':
 
 ## Submitting the form should result in your seeing the results of the form on the same page.
 
+@app.route('/problem4form')
+def qFour():
+	formstring = """+++++++++++++++++++++++++++++++++++++++++<br>
+	<h1>Star Wars People Search</h1>
+	+++++++++++++++++++++++++++++++++++++++++<br>
+	<br> <br>
+	Enter a name to look up: <br>
+	<form action="http://localhost:5000/problem4form" method='GET'>
+	<input type="text" name="phrase">
+	<input type="submit" value="Submit">
+	</form> <br>
+	How much do you like Star Wars?<br>
+	<input type="radio" name="dislike"> I don't like Star Wars at all<br>
+	<input type="radio" name="meh"> I feel eh about Star Wars<br>
+	<input type="radio" name="kinda"> I kinda like Star Wars<br>
+	<input type="radio" name="love"> I love Star Wars<br>
+	<br>
+	<input type="submit" value="Submit"></form><br>
+	"""
+	baseurl = "https://swapi.co/api/people/?"
+	searchterm = str(request.args.get('phrase'))
+
+	params_diction = {}
+	params_diction["search"] = searchterm
+	makereq = requests.get(baseurl, params = params_diction)
+
+	txt = makereq.text
+	python_obj = json.loads(txt)
+	pname = python_obj['results'][0]["name"]
+	phair = python_obj['results'][0]["hair_color"]
+	pgender = python_obj['results'][0]["gender"]
+	pworld = python_obj['results'][0]["homeworld"]
+
+	personstring = '<br>-- TOP PERSON RESULT --<br>Name: {}<br>Hair Color: {}<br>Gender: {}<br>Homeworld (link!): {}'.format(pname, phair, pgender, pworld)
+
+	if request.method == "GET":
+		try:
+			if request.args.get('dislike'):
+				return(formstring + '<br> If you do not like Star Wars, I guess you have no use for this app then! Find another one! <br>')
+			if request.args.get('meh'):
+				return(formstring + '<br> Show a bit more enthusiasm, please! <br>')
+			if request.args.get('kinda'):
+				return(formstring + personstring)
+			if request.args.get('love'):
+				return(formstring + '<br> WHOOO! A STAR WARS FAN!! <br>' + personstring)
+			else:
+				return(formstring + '<br> you need to select an answer! <br>')
+		except:
+			return(formstring + '<br> SOMETHING IS GOING WRONG. Make sure you spelled everything correctly.')
+
+	return formstring
+
+	# params_diction = {}
+	# params_diction["Accept"] = "application/json"
+	# params_diction["app_id"] = "aa397b2c"
+	# params_diction["app_key"] = "9a8c2f87bb0e376774a74f1763331be7"
+	# print(request.args.get('phrase'))
+	# fullurl = baseurl + str(request.args.get('phrase'))
+	# print(fullurl)
+	# makereq = requests.get(fullurl, params = params_diction)
+	# return str(formstring) + str(python_obj)
+	# text = makereq.text
+	# python_obj = json.loads(text)
+	# return formstring + str(python_obj)
+
+
+if __name__ == '__main__':
+		app.run(debug=True)
+
 ## What you do for this problem should:
 # - not be an exact repeat of something you did in class
 # - must include an HTML form with checkboxes and text entry
-# - should, on submission of data to the HTML form, show new data that depends upon the data entered into the submission form and is readable by humans (more readable than e.g. the data you got in Problem 2 of this HW). The new data should be gathered via API request or BeautifulSoup.
+# - should, on submission of data to the HTML form, show new data that depends
+# upon the data entered into the submission form and is readable by humans
+# (more readable than e.g. the data you got in Problem 2 of this HW).
+# The new data should be gathered via API request or BeautifulSoup.
 
 # You should feel free to be creative and do something fun for you --
-# And use this opportunity to make sure you understand these steps: if you think going slowly and carefully writing out steps for a simpler data transaction, like Problem 1, will help build your understanding, you should definitely try that!
+# And use this opportunity to make sure you understand these steps:
+# if you think going slowly and carefully writing out steps for a simpler data transaction,
+# like Problem 1, will help build your understanding, you should definitely try that!
 
-# You can assume that a user will give you the type of input/response you expect in your form; you do not need to handle errors or user confusion. (e.g. if your form asks for a name, you can assume a user will type a reasonable name; if your form asks for a number, you can assume a user will type a reasonable number; if your form asks the user to select a checkbox, you can assume they will do that.)
+# You can assume that a user will give you the type of input/response you expect
+# in your form; you do not need to handle errors or user confusion.
+# (e.g. if your form asks for a name, you can assume a user will type a reasonable name;
+# if your form asks for a number, you can assume a user will type a reasonable number; if your
+# form asks the user to select a checkbox, you can assume they will do that.)
 
 # Points will be assigned for each specification in the problem.
